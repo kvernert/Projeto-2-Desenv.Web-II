@@ -146,6 +146,9 @@ function totalL() {
 function limpaCarrinho() {
   carrinho.value = []
 }
+function remover(index){
+  carrinho.value.splice(index, 1)
+}
 </script>
 
 <template>
@@ -204,6 +207,9 @@ function limpaCarrinho() {
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
           <button @click="limpaCarrinho" type="button" class="btn btn-dark">Limpar carrinho</button>
+          <button @click="remover" type="button" class="btn btn-dark">
+            <i class="bi bi-trash" />
+          </button>
         </div>
       </div>
     </div>
