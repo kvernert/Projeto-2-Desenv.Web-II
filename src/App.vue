@@ -5,7 +5,7 @@ const produtos = ref([
   {
     id: 1,
     nome: 'CAMISETA CHRONIC 3412',
-    quantidade: 0,
+    quantidade: 1,
     preco: 89.9,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16836471759192_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/556/produto/16836472743849_detalhe.jpg',
@@ -14,7 +14,7 @@ const produtos = ref([
   {
     id: 2,
     nome: 'CARTEIRA CHRONIC 2022-32',
-    quantidade: 0,
+    quantidade: 1,
     preco: 89.9,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16819155698999_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16819155689588_zoom.jpg',
@@ -23,7 +23,7 @@ const produtos = ref([
   {
     id: 3,
     nome: 'CHRONIC FLEX PANEL 23/069',
-    quantidade: 0,
+    quantidade: 1,
     preco: 132.0,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16825347673987_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16825347668550_zoom.jpg',
@@ -32,7 +32,7 @@ const produtos = ref([
   {
     id: 4,
     nome: 'CHINELO CHRONIC SLIDE ROYAL REF 01',
-    quantidade: 0,
+    quantidade: 1,
     preco: 156.0,
     img: 'https://static.cdnlive.com.br/uploads/707/produto/16801142195752_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16801142187385_zoom.jpg',
@@ -41,7 +41,7 @@ const produtos = ref([
   {
     id: 5,
     nome: 'CAMISETA CHRONIC 3113',
-    quantidade: 0,
+    quantidade: 1,
     preco: 89.9,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16836435697388_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16836435689156_zoom.jpg',
@@ -50,7 +50,7 @@ const produtos = ref([
   {
     id: 6,
     nome: 'BONÉ BUCKET 2021/001',
-    quantidade: 0,
+    quantidade: 1,
     preco: 77.0,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16612695019225_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/unidade/16612695001152_zoom.jpg',
@@ -59,7 +59,7 @@ const produtos = ref([
   {
     id: 7,
     nome: 'CHAVEIRO FITA CHRONIC 020',
-    quantidade: 0,
+    quantidade: 1,
     preco: 29.0,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16593795392595_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/unidade/16593795398161_zoom.jpg',
@@ -68,7 +68,7 @@ const produtos = ref([
   {
     id: 8,
     nome: 'CORTA VENTO CHRONIC 2021/002V2',
-    quantidade: 0,
+    quantidade: 1,
     preco: 240.0,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16626519642580_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16626519631513_zoom.jpg',
@@ -77,7 +77,7 @@ const produtos = ref([
   {
     id: 9,
     nome: 'CAMISETA MANGA LONGA TIE DYE 017',
-    quantidade: 0,
+    quantidade: 1,
     preco: 77.0,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16593589321625_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16593589313257_zoom.jpg',
@@ -86,7 +86,7 @@ const produtos = ref([
   {
     id: 10,
     nome: 'CALÇA MOLETOM CHRONIC/DEXTER BIG 2022/011V1',
-    quantidade: 0,
+    quantidade: 1,
     preco: 120.0,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16839072566136_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16839072542587_zoom.jpg',
@@ -95,7 +95,7 @@ const produtos = ref([
   {
     id: 11,
     nome: 'BLUSA MOLETOM CHRONIC 013',
-    quantidade: 0,
+    quantidade: 1,
     preco: 331.0,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16789029341316_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16789029322644_zoom.jpg',
@@ -104,13 +104,16 @@ const produtos = ref([
   {
     id: 12,
     nome: 'SHAPE CHRONIC DE LONGBOARD 003',
-    quantidade: 0,
+    quantidade: 1,
     preco: 259.9,
     img: 'https://static.cdnlive.com.br/uploads/707/unidade/16666227623924_zoom.jpg',
     hover: 'https://static.cdnlive.com.br/uploads/707/produto/16666227602141_zoom.jpg',
     original: 'https://static.cdnlive.com.br/uploads/707/unidade/16666227623924_zoom.jpg'
   }
 ])
+
+const valorTotal = ref(0)
+
 function add(index) {
   produtos.value[index].quantidade++
   totalL()
@@ -121,7 +124,6 @@ function subtrair(index) {
   }
   totalL()
 }
-let valorTotal = ref(0)
 
 let carrinho = ref([])
 
@@ -133,21 +135,40 @@ function addCarrinho(produto) {
     quantidade: produto.quantidade,
     total: produto.preco * produto.quantidade
   })
+  carrinho.value.total += produto.preco * produto.quantidade
   totalL()
   produto.quantidade = 1
 }
 function totalL() {
   valorTotal.value = 0
-  for(const item of carrinho.value){
-    valorTotal.value = valorTotal.value + item.total
+  for (const item of carrinho.value) {
+    valorTotal.value += item.total
   }
 }
 
 function limpaCarrinho() {
   carrinho.value = []
 }
-function remover(index){
-  carrinho.value.splice(index, 1)
+
+function removeItem(index) {
+  if (index >= 0 && index < carrinho.value.length) {
+    const produtoIndex = produtos.value.findIndex((p) => p.id === carrinho.value[index].id)
+    if (carrinho.value[index].quantidade == 1) {
+      valorTotal.value -= produtos.value[produtoIndex].preco * carrinho.value[index].quantidade
+      carrinho.value.splice(index, 1)
+    } else {
+      carrinho.value[index].quantidade--
+      if (produtoIndex !== -1) {
+        valorTotal.value -= produtos.value[produtoIndex].preco
+      }
+    }
+  }
+}
+
+function remover(index) {
+  if (index >= 0 && index < carrinho.value.length) {
+    carrinho.value.splice(index, 1)
+  }
 }
 </script>
 
@@ -199,6 +220,9 @@ function remover(index){
                 item.total.toFixed(2)
               }}
               )
+              <button @click="removeItem(index)" type="button" class="btn btn-dark">
+                <i class="bi bi-cart-x-fill" />
+              </button>
             </p>
           </div>
           <p v-if="carrinho.length > 0">Valor total da compra: R$ {{ valorTotal.toFixed(2) }}</p>
@@ -207,7 +231,7 @@ function remover(index){
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
           <button @click="limpaCarrinho" type="button" class="btn btn-dark">Limpar carrinho</button>
-          <button @click="remover" type="button" class="btn btn-dark">
+          <button @click="remover(index)" type="button" class="btn btn-dark">
             <i class="bi bi-trash" />
           </button>
         </div>
