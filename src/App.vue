@@ -125,6 +125,7 @@ function subtrair(index) {
   totalL()
 }
 
+
 let carrinho = ref([])
 
 function addCarrinho(produto) {
@@ -143,6 +144,7 @@ function totalL() {
   valorTotal.value = 0
   for (const item of carrinho.value) {
     valorTotal.value += item.total
+    
   }
 }
 
@@ -152,23 +154,19 @@ function limpaCarrinho() {
 
 function removeItem(index) {
   if (index >= 0 && index < carrinho.value.length) {
-    const produtoIndex = produtos.value.findIndex((p) => p.id === carrinho.value[index].id)
+    const produtoIndex = produtos.value.findIndex((p) => p.id === carrinho.value[index].id);
     if (carrinho.value[index].quantidade == 1) {
-      valorTotal.value -= produtos.value[produtoIndex].preco * carrinho.value[index].quantidade
-      carrinho.value.splice(index, 1)
+      valorTotal.value -= produtos.value[produtoIndex].preco * carrinho.value[index].quantidade;
+      carrinho.value.splice(index, 1);
     } else {
-      carrinho.value[index].quantidade--
-      if (produtoIndex !== -1) {
-        valorTotal.value -= produtos.value[produtoIndex].preco
-      }
+      carrinho.value[index].quantidade--;
+      carrinho.value[index].total = produtos.value[produtoIndex].preco * carrinho.value[index].quantidade;
+      valorTotal.value -= produtos.value[produtoIndex].preco;
     }
   }
 }
-
-function remover(index) {
-  if (index >= 0 && index < carrinho.value.length) {
-    carrinho.value.splice(index, 1)
-  }
+function remove(index) {
+  carrinho.value.splice(index, 1)
 }
 </script>
 
@@ -231,7 +229,7 @@ function remover(index) {
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
           <button @click="limpaCarrinho" type="button" class="btn btn-dark">Limpar carrinho</button>
-          <button @click="remover(index)" type="button" class="btn btn-dark">
+          <button @click="remove(index)" type="button" class="btn btn-dark">
             <i class="bi bi-trash" />
           </button>
         </div>
